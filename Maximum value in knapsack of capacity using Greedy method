@@ -1,0 +1,70 @@
+#include<stdio.h>
+#define MAX 100
+double max(double w,double wt[],double val[],double ratio[],int n);
+int next(double wt[],double val[],double ratio[],int n);
+int main()
+{
+int i,n;
+double w,wt[MAX],val[MAX],ratio[MAX];
+printf("Enter the number of items:");
+scanf("%d",&n);
+printf("Enter the weights of items:");
+for(i=0;i<n;i++)
+scanf("%lf",&wt[i]);
+printf("Enter the values/profit of items:\n");
+for(i=0;i<n;i++)
+scanf("%lf",&val[i]);
+for(i=0;i<n;i++)
+ratio[i]=val[i]/wt[i];
+printf("Enter the capacity of knapsack:");
+scanf("%lf",&w);
+printf("Maximum value in knapsack of capacity  %.2f is : %.2f\n",w,max(w,wt,val,ratio,n));
+return 0;
+}
+
+double max(double w,double wt[],double val[],double ratio[],int n)
+{
+
+int item;
+double cw=0;
+double cv=0;
+printf("\nItems considered are :");
+while(cw<w)
+{
+item=next(wt,val,ratio,n);
+if(item==-1){
+break;
+}
+printf("%d",item+1);
+if(cw+wt[item]<=w)
+{
+cw+=wt[item];
+cv+=val[item];
+ratio[item]=0;
+}
+else
+{
+cv+=(ratio[item]*(w-cw));
+cw+=(w-cw);
+break;
+}
+}
+return cv;
+}
+
+int next(double wt[],double val[],double ratio[],int n)
+{
+double h=0;
+int i, index=-1;
+for(i=0;i<n;i++)
+{
+if(ratio[i]>h)
+{
+h=ratio[i];
+index=i;
+}
+}
+return index;
+}
+
+
